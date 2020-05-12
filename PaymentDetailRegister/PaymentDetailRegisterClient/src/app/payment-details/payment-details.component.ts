@@ -9,10 +9,7 @@ import { PaymentDetail } from '../shared/payment-detail.model';
 })
 export class PaymentDetailsComponent implements OnInit {
   // Lista de pagos
-  paymentDetailList: PaymentDetail[];
-
-  // Atributo que manejara la info recibida por el formulario
-  formData: PaymentDetail;
+  paymentDetailList: PaymentDetail[];  
   
   constructor() { }
 
