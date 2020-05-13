@@ -13,23 +13,23 @@ export class PaymentDetailService {
   constructor(private http: HttpClient) { }
 
   getPaymentsDetailsList() {
-    this.http.get(`${this.rootApiUrl}`);
+    return this.http.get(`${this.rootApiUrl}`);
   }
 
   postPaymentsDetails(paymentDetail: PaymentDetail) {
-    this.http.post(`${this.rootApiUrl}`, paymentDetail);
+    return this.http.post(`${this.rootApiUrl}`, paymentDetail);
   }
 
   putPaymentsDetails(paymentDetail: PaymentDetail) {
-    this.http.put(`${this.rootApiUrl}${paymentDetail.PMId}`, paymentDetail);
+    return this.http.put(`${this.rootApiUrl}${paymentDetail.PMId}`, paymentDetail);
   }
 
   deletePaymentsDetails(id) {
-    this.http.delete(`${this.rootApiUrl}${id}`);
+    return this.http.delete(`${this.rootApiUrl}${id}`);
   }
 
   getPaymentDetail(id) {
-    this.http.get(`${this.rootApiUrl}${id}`);
+    return this.http.get(`${this.rootApiUrl}${id}`);
   }
 
 
