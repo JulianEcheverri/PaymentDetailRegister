@@ -23,5 +23,18 @@ export class PaymentDetailListComponent implements OnInit {
     });
   }
 
+  paymentSelected(selectedRecord: PaymentDetail) {
+    this.paymentDetailService.paymentDetailForm = selectedRecord;
+  }
+
+  deletePayment(PMId){
+    if (confirm('Are you sure to delete this record ?')) {
+      this.paymentDetailService.deletePaymentDetail(PMId)
+        .subscribe(res => {
+          this.getPaymentsDetailsList();
+        },
+        err => { console.log(err); })
+    }
+  }
 
 }

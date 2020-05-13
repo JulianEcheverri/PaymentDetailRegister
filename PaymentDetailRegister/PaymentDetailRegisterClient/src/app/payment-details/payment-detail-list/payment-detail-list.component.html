@@ -3,5 +3,11 @@
         <td>{{item.CardOwnerName}}</td>
         <td>{{item.CardNumber}}</td>
         <td>{{item.ExpirationDate}}</td>
+        <td>
+            <i class="far fa-edit text-info fa-lg" (click)="paymentSelected(item)"></i>
+        </td>
+        <td>
+            <i class="far fa-trash-alt fa-lg text-danger " (click)="deletePayment(item.PMId) "></i>
+        </td>
     </tr>
 </table>

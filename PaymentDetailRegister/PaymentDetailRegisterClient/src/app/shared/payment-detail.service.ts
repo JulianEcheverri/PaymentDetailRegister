@@ -6,9 +6,12 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PaymentDetailService {
+ 
+    // Atributo que manejara la info recibida por el formulario
+   paymentDetailForm: PaymentDetail;
 
   // Raiz de ruta de api
-  readonly rootApiUrl = 'http://localhost:50500/api/PaymentDetail/';
+  readonly rootApiUrl = 'http://localhost:50500/api/PaymentDetail';
 
   constructor(private http: HttpClient) { }
 
@@ -16,21 +19,19 @@ export class PaymentDetailService {
     return this.http.get(`${this.rootApiUrl}`);
   }
 
-  postPaymentsDetails(paymentDetail: PaymentDetail) {
-    return this.http.post(`${this.rootApiUrl}`, paymentDetail);
+  postPaymentsDetails() {
+    return this.http.post(`${this.rootApiUrl}`, this.paymentDetailForm);
   }
 
-  putPaymentsDetails(paymentDetail: PaymentDetail) {
-    return this.http.put(`${this.rootApiUrl}${paymentDetail.PMId}`, paymentDetail);
+  putPaymentsDetails() {
+    return this.http.put(`${this.rootApiUrl}/${this.paymentDetailForm.PMId}`, this.paymentDetailForm);
   }
 
-  deletePaymentsDetails(id) {
-    return this.http.delete(`${this.rootApiUrl}${id}`);
+  deletePaymentDetail(id) {
+    return this.http.delete(`${this.rootApiUrl}/${id}`);
   }
 
   getPaymentDetail(id) {
-    return this.http.get(`${this.rootApiUrl}${id}`);
+    return this.http.get(`${this.rootApiUrl}/${id}`);
   }
-
-
 }

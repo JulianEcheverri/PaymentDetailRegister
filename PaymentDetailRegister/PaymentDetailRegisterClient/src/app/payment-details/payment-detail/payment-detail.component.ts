@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PaymentDetail } from 'src/app/shared/payment-detail.model';
 import { NgForm } from "@angular/forms";
 import { PaymentDetailService } from '../../shared/payment-detail.service';
 import Swal from "sweetalert2";
@@ -11,11 +10,9 @@ import { Observable } from 'rxjs';
   styles: [
   ]
 })
-export class PaymentDetailComponent implements OnInit {
-  // Atributo que manejara la info recibida por el formulario
-  paymentDetail =  new PaymentDetail();
+export class PaymentDetailComponent implements OnInit { 
 
-  constructor(private paymentDetailService : PaymentDetailService) { }
+  constructor(public paymentDetailService : PaymentDetailService) { }
 
   ngOnInit(): void {
     this.refreshForm();
@@ -25,7 +22,7 @@ export class PaymentDetailComponent implements OnInit {
   refreshForm(form?: NgForm) {
     if (form != null) form.form.reset();
 
-    this.paymentDetail = {
+    this.paymentDetailService.paymentDetailForm = {
       PMId: 0,
       CardOwnerName: '',
       CardNumber: '',
@@ -40,7 +37,7 @@ export class PaymentDetailComponent implements OnInit {
       return;
     }
     // console.log(form);
-    console.log(this.paymentDetail);
+    console.log(this.paymentDetailService.paymentDetailForm);
 
     // para cuando se guarde dispare el alert
     Swal.fire({
@@ -56,13 +53,13 @@ export class PaymentDetailComponent implements OnInit {
      let peticion: Observable<any>;
 
     // // si existe id, lo actualiza, sino lo crea
-    peticion = this.paymentDetail.PMId ? 
-      this.paymentDetailService.putPaymentsDetails(this.paymentDetail) :
-      this.paymentDetailService.postPaymentsDetails(this.paymentDetail);
+    peticion = this.paymentDetailService.paymentDetailForm.PMId ? 
+      this.paymentDetailService.putPaymentsDetails() :
+      this.paymentDetailService.postPaymentsDetails();
 
     peticion.subscribe(resp => {
       Swal.fire({
-        title: this.paymentDetail.CardOwnerName,
+        title: this.paymentDetailService.paymentDetailForm.CardOwnerName,
         text: "Se actualizó correctamente",
         icon: "success",
       });
@@ -70,7 +67,7 @@ export class PaymentDetailComponent implements OnInit {
     },
     error => {
       Swal.fire({
-        title: this.paymentDetail.CardOwnerName,
+        title: this.paymentDetailService.paymentDetailForm.CardOwnerName,
         text: "No se actualizó la información",
         icon: "error",
       });
