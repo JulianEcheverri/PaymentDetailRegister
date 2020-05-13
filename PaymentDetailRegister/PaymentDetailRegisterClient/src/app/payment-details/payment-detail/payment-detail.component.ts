@@ -64,6 +64,8 @@ export class PaymentDetailComponent implements OnInit {
         icon: "success",
       });
       console.log(resp);
+      this.paymentDetailService.getPaymentsDetailsList();
+      this.refreshForm(form);
     },
     error => {
       Swal.fire({

@@ -13,10 +13,14 @@ export class PaymentDetailService {
   // Raiz de ruta de api
   readonly rootApiUrl = 'http://localhost:50500/api/PaymentDetail';
 
+  paymentDetailList: PaymentDetail[];
+
   constructor(private http: HttpClient) { }
 
   getPaymentsDetailsList() {
-    return this.http.get(`${this.rootApiUrl}`);
+    this.http.get(`${this.rootApiUrl}`).subscribe((resp: any) => {
+      this.paymentDetailList = resp;
+    });
   }
 
   postPaymentsDetails() {

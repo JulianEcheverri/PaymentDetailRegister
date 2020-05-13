@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentDetailService } from 'src/app/shared/payment-detail.service';
 import { PaymentDetail } from 'src/app/shared/payment-detail.model';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-payment-detail-list',
@@ -8,33 +9,42 @@ import { PaymentDetail } from 'src/app/shared/payment-detail.model';
   styles: [
   ]
 })
-export class PaymentDetailListComponent implements OnInit {
-  paymentDetailList: PaymentDetail[];
+export class PaymentDetailListComponent implements OnInit {  
 
-  constructor(private paymentDetailService : PaymentDetailService) { }
+  constructor(public paymentDetailService : PaymentDetailService) { }
 
   ngOnInit(): void {
-    this.getPaymentsDetailsList();
+    this.paymentDetailService.getPaymentsDetailsList();
   }
-
-  getPaymentsDetailsList(){
-    this.paymentDetailService.getPaymentsDetailsList().subscribe((resp: any) => {
-      this.paymentDetailList = resp;
-    });
-  }
+ 
 
   paymentSelected(selectedRecord: PaymentDetail) {
     this.paymentDetailService.paymentDetailForm = selectedRecord;
   }
 
   deletePayment(PMId){
-    if (confirm('Are you sure to delete this record ?')) {
-      this.paymentDetailService.deletePaymentDetail(PMId)
-        .subscribe(res => {
-          this.getPaymentsDetailsList();
+    Swal.fire({
+      title: "¿Está seguro?",
+      text: `¿Está seguro que desea borrar el registro?`,
+      icon: "question",
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then(resp => {
+      if (resp.value) {
+        this.paymentDetailService.deletePaymentDetail(PMId)
+        .subscribe((res: any) => {
+          this.paymentDetailService.getPaymentsDetailsList();
+          console.log(res); 
+          Swal.fire({
+            title: res.CardOwnerName,
+            text: "Eliminado correctamente",
+            icon: "success",
+          });
         },
-        err => { console.log(err); })
-    }
+        err => { 
+          console.log(err); 
+        });
+      }
+    });
   }
-
 }
